@@ -76,15 +76,29 @@ The exposed methods described below follow the four algorithms from the paper cl
 Returns a WIBE instance. C<new()> expects a parameter hash with at least the
 following pair set:
 
-    B<L>: Pattern length / Maximum hierarchy of the encryption scheme.
+=over 4
+
+=item L
+
+Pattern length / Maximum hierarchy of the encryption scheme.
+
+=back
 
 and the following optional keys:
 
-    B<pairing>: A Type-A pairing. Passed directly to L<Crypt::PBC::new()|Crypt::PBC/Crypt::PBC::new>.
-    May be a pairing string, filehandle or filename.
+=over 4
 
-    B<SK>, B<MPK>: Secret and Public Key of the system. If not set, they
-    are generated through C<setup()>.
+=item pairing
+
+A Type-A pairing. Passed directly to L<Crypt::PBC::new()|Crypt::PBC/Crypt::PBC::new>.
+May be a pairing string, filehandle or filename.
+
+=item SK, MPK
+
+Secret and Public Key of the system. If not set, they
+are generated through C<setup()>.
+
+=back
 
 =cut
 sub new {
@@ -186,16 +200,31 @@ Returns a WIBE instance for a derived ID element.
 
 Required Parameters:
 
-    B<next_id>: Next Identifier element in the hierarchy.
+=over 4
+
+=item next_id
+
+Next Identifier element in the hierarchy.
+
+=back
 
 This serves as a shortcut for the following steps:
 
-    B<1.)> Create a derived key C<SK[ID0, ... , IDi, next_id] = $self->key_derive(next_id)>.
+=over 4
 
-    B<2.)> Create a new WIBE instance with the same public key
-           and the derived secret key C<SK[ID0, .., IDi+1]>
+=item 1.
 
-    B<3.)> Returns that instance.
+Create a derived key C<SK[ID0, ... , IDi, next_id] = $self->key_derive(next_id)>.
+
+=item 2.
+
+Create a new WIBE instance with the same public key and the derived secret key C<SK[ID0, .., IDi+1]>
+
+=item 3.
+
+Returns that instance.
+
+=back
 
 =cut
 sub derive {
@@ -228,26 +257,50 @@ using the derivable secret key I<(DSK)> of this instance.
 
 Parameters:
 
-    B<id>: Next Identifier element in the hierarchy.
+=over 4
+
+=item id
+
+Next Identifier element in the hierarchy.
+
+=back
 
 Returns the derived key of size (sk - 1),
 which is a simple hash with the following keys:
 
-    B<key>: The element_t secret key for the derived ID.
-    B<ids>: Hierarchy of the secret key.
+=over 4
 
-Example:
+=item key
 
-    - Alice derives an identity 1 (Zp) for Bob
-      using the Master Key. (size |L| + 2)
+The element_t secret key for the derived ID.
 
-    - Bob receives a secret key of size |L| + 1
-      and its identity.
+=item ids
 
-    - Bob derives an identity 0 (Zp) for Bob
-      (i.e., the self key).
+Hierarchy of the secret key.
 
-    -> Bob can decrypt for Pattern [1,*] or [1,0].
+=back
+
+B<Example:>
+
+=over 4
+
+=item *
+
+Alice derives an identity 1 (Zp) for Bob
+using the Master Key. (size |L| + 2)
+
+=item *
+
+Bob receives a secret key of size |L| + 1
+and its identity.
+
+=item *
+Bob derives an identity 0 (Zp) for Bob
+(i.e., the self key).
+
+Bob can decrypt for Pattern [1,*] or [1,0].
+
+=back
 
 =cut
 sub key_derive {
@@ -338,17 +391,37 @@ as a hybrid encryption scheme.
 
 Parameters:
 
-  - B<Pattern>: An arrayref of size L with one of:
+=over 4
+
+=item Pattern
+
+An arrayref of size L with one of:
     1.) C<'*'>, wildcard. Can be derived by any containing the parent pattern
     2.) An Identifier (int >= 0). Derived only by the owner of that identifier.
 
-    B<Example>: For L=2, possible patterns are:
+B<Example>: For L=2, possible patterns are:
 
-    B<['*','*']>: Decrypt possible with patterns matching C<'X.*'> or C<'X.Y'> for any C<X>.
-    B<['X','*']>: Decrypt possible for X and any subkeys of id C<X>.
-    B<['X', 0 ]>: Decrypt possible for subkey 0 of C<X>, which by convention is C<X.self>.
+=over 4
 
-  - B<m>: An element of G1 to encrypt.
+=item *
+
+C<['*','*']>: Decrypt possible with patterns matching C<'X.*'> or C<'X.Y'> for any C<X>.
+
+=item *
+
+C<['X','*']>: Decrypt possible for X and any subkeys of id C<X>.
+
+=item *
+
+C<['X', 0 ]>: Decrypt possible for subkey 0 of C<X>, which by convention is C<X.self>.
+
+=back
+
+=item m
+
+An element of G1 to encrypt.
+
+=back
 
 The resulting ciphertext of the encryption is a hashref.
 
@@ -416,11 +489,17 @@ Recover the element of GT from the given ciphertext.
 
 Required parameters:
 
-    B<1.)> The ciphertext is a hashref with (P,C1,..C4) keys,
-        as returned from the C<encrypt_element> method.
+=over 4
 
-    B<2.)> The derived secret key of hierarchy length >= |P| as output from
-        C<key_derive>.
+=item Ciphertext
+
+The ciphertext is a hashref with (P,C1,..C4) keys,
+as returned from the C<encrypt_element> method.
+
+=back
+
+To decrypt, the secret key (SK) is used. It must be of hierarchy length >= |P| in
+order to be able to decrypt the pattern.
 
 Returns an element of GT.
 Use L<Crypt::PBC/Comparison-Functions|Crypt::PBC::element_cmp>
@@ -497,11 +576,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 =head1 SEE ALSO
 
-    L<Crypt::PBC>
+L<Crypt::PBC>
 
-    http://crypto.stanford.edu/pbc/
+L<http://crypto.stanford.edu/pbc/>
 
-    http://groups.google.com/group/pbc-devel
+L<http://groups.google.com/group/pbc-devel>
 
 =cut
 

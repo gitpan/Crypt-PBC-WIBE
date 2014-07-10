@@ -16,4 +16,4 @@ name: Crypt-PBC-WIBE
 requires:
   Carp: 0
   Crypt::PBC: 0
-version: 0.1
+version: 0.1.1
