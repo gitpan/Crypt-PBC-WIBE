@@ -17,6 +17,10 @@ sign1 1
 sign0 1
 EOF
 
+=pod
+
+=encoding utf8
+
 =head1 NAME
 
 Crypt::PBC::WIBE - Implementation of the Boneh-Gentry-Goh Wildcarded Identity-based Encryption scheme.
@@ -90,7 +94,7 @@ and the following optional keys:
 
 =item pairing
 
-A Type-A pairing. Passed directly to L<Crypt::PBC::new()|Crypt::PBC/Crypt::PBC::new>.
+A Type-A pairing. Passed directly to L<Crypt::PBC::new()|Crypt::PBC/"Crypt::PBC::new">.
 May be a pairing string, filehandle or filename.
 
 =item SK, MPK
@@ -139,7 +143,7 @@ sub new {
 
 Returns the Type-A pairing used in this WIBE instance.
 
-See L<Crypt::PBC/Pairing-Functions>.
+See L<Crypt::PBC/"Pairing-Functions">.
 
 =cut
 sub pairing {
@@ -214,7 +218,7 @@ This serves as a shortcut for the following steps:
 
 =item 1.
 
-Create a derived key C<SK[ID0, ... , IDi, next_id] = $self->key_derive(next_id)>.
+Create a derived key C<<SK[ID0, ... , IDi, next_id] = $self->key_derive(next_id)>>.
 
 =item 2.
 
@@ -502,7 +506,7 @@ To decrypt, the secret key (SK) is used. It must be of hierarchy length >= |P| i
 order to be able to decrypt the pattern.
 
 Returns an element of GT.
-Use L<Crypt::PBC/Comparison-Functions|Crypt::PBC::element_cmp>
+L<Use a comparison function|Crypt::PBC/"Comparison_Functions">
 to determine the success or failure of the decryption.
 
 =cut
